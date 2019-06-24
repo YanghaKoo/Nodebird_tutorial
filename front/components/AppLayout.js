@@ -1,6 +1,7 @@
-import React, { Children } from "react";
-import { Menu, Input, Button } from "antd";
-import Link from "next/link";
+import React, { Children } from "react"
+import { Menu, Input, Button } from "antd"
+import Link from "next/link"
+import PropTypes from "prop-types"
 
 // Menu가 겹치는 부분이고, 나머지 부분을 children으로 받아와서 아래에 표시해 주겠단 거지
 // 다른 페이지에서 컨텐츠를 <AppLayout></AppLayout>으로 감싸줘야 하겠네
@@ -22,10 +23,18 @@ const AppLayout = ({ children }) => {
           <Input.Search enterButton style={{ verticalAlign: "middle" }} />
         </Menu.Item>
       </Menu>
-      <Link href="/signup"><a><Button>회원가입</Button></a></Link>
+      <Link href="/signup">
+        <a>
+          <Button>회원가입</Button>
+        </a>
+      </Link>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default AppLayout;
+AppLayout.propTypes = {
+  children: PropTypes.elementType,
+}
+
+export default AppLayout

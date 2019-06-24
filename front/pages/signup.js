@@ -1,7 +1,5 @@
-import React, { useState, useCallback } from "react";
-import AppLayout from "../components/AppLayout";
-import Head from "next/head";
-import { Form, Input, Checkbox, Button } from "antd";
+import React, { useState, useCallback } from "react"
+import { Form, Input, Checkbox, Button } from "antd"
 
 const Signup = () => {
   /*
@@ -12,53 +10,53 @@ const Signup = () => {
 
   // 단순 인풋 Custom Hook으로
   const useInput = initValue => {
-    const [value, setter] = useState(initValue);
+    const [value, setter] = useState(initValue)
     const onChange = useCallback(e => {
-      setter(e.target.value);
-    });
-    return { value, onChange };
-  };
+      setter(e.target.value)
+    })
+    return { value, onChange }
+  }
 
-  const idHook = useInput("");
-  const nickHook = useInput("");
-  const passwordHook = useInput("");
+  const idHook = useInput("")
+  const nickHook = useInput("")
+  const passwordHook = useInput("")
 
   // 패스워드 체크와 term은 일반적이지 않은 경우이니 따로
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const [term, setTerm] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState("")
+  const [term, setTerm] = useState(false)
 
-  const [passwordError, setPasswordError] = useState(false);
-  const [termError, setTermError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false)
+  const [termError, setTermError] = useState(false)
 
   const onSubmit = useCallback(
     e => {
-      e.preventDefault();
-      if (passwordHook.value !== passwordCheck) return setPasswordError(true);
-      if (!term) return setTermError(true);
+      e.preventDefault()
+      if (passwordHook.value !== passwordCheck) return setPasswordError(true)
+      if (!term) return setTermError(true)
 
       console.log({
         id: idHook.value,
         nick: nickHook.value,
         password: passwordHook.value,
         passwordCheck,
-        term
-      });
+        term,
+      })
     },
-    [passwordHook.value, passwordCheck, term]
-  ); // 함수 내에서 쓴 3개의 state를 디펜던시로 넣어줌(콘솔은 내가 보는거니까 제외)
+    [passwordHook.value, passwordCheck, term],
+  ) // 함수 내에서 쓴 3개의 state를 디펜던시로 넣어줌(콘솔은 내가 보는거니까 제외)
 
   const onChangePasswordChk = useCallback(
     e => {
-      setPasswordError(e.target.value !== passwordHook.value);
-      setPasswordCheck(e.target.value);
+      setPasswordError(e.target.value !== passwordHook.value)
+      setPasswordCheck(e.target.value)
     },
-    [passwordHook.value]
-  ); // 안에서 passwordHook.value란 state를 썼으니 디펜던시 넣어주는 것
+    [passwordHook.value],
+  ) // 안에서 passwordHook.value란 state를 썼으니 디펜던시 넣어주는 것
 
   const onChangeTerm = useCallback(e => {
-    setTermError(false);
-    setTerm(e.target.checked); // e.target.checked!! 이거로 체크박스 할 수 있네
-  });
+    setTermError(false)
+    setTerm(e.target.checked) // e.target.checked!! 이거로 체크박스 할 수 있네
+  })
 
   return (
     <>
@@ -112,7 +110,7 @@ const Signup = () => {
         </div>
       </Form>
     </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

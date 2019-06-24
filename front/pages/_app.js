@@ -4,25 +4,29 @@
 import React from "react";
 import Head from "next/head";
 import AppLayout from "../components/AppLayout";
+import PropTypes from 'prop-types'
 
 const NodeBird = ({ Component }) => {
   return (
     <>
+      {/*  antd css 파일 헤드에 넣어주기!! */}
       <Head>
         <title>Nodebird</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
         />
-        {/*  antd css 파일 헤드에 넣어주기!! */}
       </Head>
 
       <AppLayout>
-        <Component />{" "}
-        {/*이 부분이 자식 컴포넌트들 들어갈 자리!!! 이 사이에 들어갈 거란거지*/}
+        <Component />   {/* <-- 이 부분이 자식 컴포넌트들 들어갈 자리!!! 이 사이에 공통되는 부분들이 들어감*/}
       </AppLayout>
     </>
   );
 };
+
+NodeBird.propTypes = {
+  Component : PropTypes.elementType // jsx에 들어갈 수 있는 모든 것을 node라고 함
+}
 
 export default NodeBird;
