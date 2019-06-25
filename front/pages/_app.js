@@ -26,7 +26,7 @@ const NodeBird = ({ Component }) => {
 };
 
 NodeBird.propTypes = {
-  Component : PropTypes.elementType // jsx에 들어갈 수 있는 모든 것을 node라고 함
+  Component : PropTypes.elementType // jsx에 들어갈 수 있는 모든 것을 elementType이라고 함
 }
 
 export default NodeBird;

@@ -1,10 +1,21 @@
 import React, { Children } from "react"
-import { Menu, Input, Button } from "antd"
+import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd"
 import Link from "next/link"
 import PropTypes from "prop-types"
+import Loginform from "./Loginform"
+import UserProfile from "./UserProfile"
 
 // Menu가 겹치는 부분이고, 나머지 부분을 children으로 받아와서 아래에 표시해 주겠단 거지
 // 다른 페이지에서 컨텐츠를 <AppLayout></AppLayout>으로 감싸줘야 하겠네
+
+const dummy = {
+  nickname: "구양하",
+  Post: [],
+  Followings: [],
+  Followers: [],
+  isLoggedIn: true,
+}
+
 const AppLayout = ({ children }) => {
   return (
     <div>
@@ -28,13 +39,24 @@ const AppLayout = ({ children }) => {
           <Button>회원가입</Button>
         </a>
       </Link>
-      {children}
+
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
+          {dummy.isLoggedIn ? <UserProfile /> : <Loginform />}
+        </Col>
+        <Col xs={24} md={12}>
+          {children}
+        </Col>
+        <Col xs={24} md={6}>
+          3
+        </Col>
+      </Row>
     </div>
   )
 }
 
-AppLayout.propTypes = {
-  children: PropTypes.elementType,
-}
+// AppLayout.propTypes = {
+//   children: PropTypes.elementType,
+// }
 
 export default AppLayout

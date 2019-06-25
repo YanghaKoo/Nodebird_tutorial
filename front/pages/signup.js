@@ -1,21 +1,22 @@
 import React, { useState, useCallback } from "react"
 import { Form, Input, Checkbox, Button } from "antd"
 
+// 단순 인풋 Custom Hook으로, Loginform에서도 쓰일거라서 export 해줬음
+// custom 훅은 전력 레벨에 선언하자!!
+export const useInput = initValue => {
+  const [value, setter] = useState(initValue)
+  const onChange = useCallback(e => {
+    setter(e.target.value)
+  })
+  return { value, onChange }
+}
+
 const Signup = () => {
   /*
    PROPS로 함수를 넘겨줄 떄는 USECALLBACK 필수!!!!, 왜냐면 이렇게 안하고 넘겨주면 함수가 계속 재생성, 그리고 하위 컴포넌트가 재 랜더링 됨
    주로 e가 들어간 이벤트 리스터에 넣어줌!
    ***그리고 useCallback 내부에서 쓰는 state를 디펜던시 배열에 넣어줘야함!!!***
   */
-
-  // 단순 인풋 Custom Hook으로
-  const useInput = initValue => {
-    const [value, setter] = useState(initValue)
-    const onChange = useCallback(e => {
-      setter(e.target.value)
-    })
-    return { value, onChange }
-  }
 
   const idHook = useInput("")
   const nickHook = useInput("")
