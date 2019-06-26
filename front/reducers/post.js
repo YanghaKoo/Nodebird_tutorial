@@ -1,9 +1,20 @@
 export const initialState = {
-  mainPosts: [],
+  mainPosts: [{
+    User : {
+      id: 1,
+      nickname : "안수경"
+    },
+    content : "첫 게시글!!",
+    img : "https://koostagram.xyz/img/20190524_2256341559372395228.jpg",
+    
+  }],
+  imagePaths : []
 }
 
-const ADD_POST = "ADD_POST"
-const ADD_DUMMY = "ADD_DUMMY"
+export const ADD_POST = "ADD_POST"
+export const ADD_DUMMY = "ADD_DUMMY"
+
+
 
 const addPost = {
   type: ADD_POST,
@@ -34,10 +45,10 @@ const reducer = (state = initialState, action) => {
         mainPosts: [action.data, ...state.mainPosts],
       }
     }
-    
-    default : {
+
+    default: {
       return {
-        ...state
+        ...state,
       }
     }
   }

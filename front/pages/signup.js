@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react"
 import { Form, Input, Checkbox, Button } from "antd"
+import { useDispatch } from 'react-redux'
+import { signupAction } from '../reducers/user'
 
 // 단순 인풋 Custom Hook으로, Loginform에서도 쓰일거라서 export 해줬음
 // custom 훅은 전력 레벨에 선언하자!!
@@ -29,19 +31,19 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState(false)
   const [termError, setTermError] = useState(false)
 
+  const dispatch = useDispatch()
+
   const onSubmit = useCallback(
     e => {
       e.preventDefault()
       if (passwordHook.value !== passwordCheck) return setPasswordError(true)
       if (!term) return setTermError(true)
 
-      console.log({
-        id: idHook.value,
-        nick: nickHook.value,
-        password: passwordHook.value,
-        passwordCheck,
-        term,
-      })
+      dispatch(signupAction({
+        id : idHook.value,
+        password : passwordHook.value,
+        nick : nickHook.value
+      }))
     },
     [passwordHook.value, passwordCheck, term],
   ) // 함수 내에서 쓴 3개의 state를 디펜던시로 넣어줌(콘솔은 내가 보는거니까 제외)

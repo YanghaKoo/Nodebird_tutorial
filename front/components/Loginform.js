@@ -1,15 +1,23 @@
 import React, {useCallback} from "react"
 import { Form, Input, Button } from "antd"
 import { useInput } from "../pages/signup"
+import {useDispatch} from 'react-redux'
+import {loginAction} from '../reducers/user'
 
 const Loginform = () => {
   const idHook = useInput("")
   const passwordHook = useInput("")
+  const dispatch = useDispatch()
 
   const onSubmitForm = useCallback(e => {
     e.preventDefault()
+    dispatch(loginAction)
+    
     console.log(idHook.value, passwordHook.value)
   },[idHook.value, passwordHook.value])
+
+
+
 
   return (
     <Form onSubmit={onSubmitForm} style={{padding : 10}}>

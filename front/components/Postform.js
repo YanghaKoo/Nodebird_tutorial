@@ -1,22 +1,13 @@
 import React from "react"
 import { Form, Input, Button, Icon, Avatar, Card } from "antd"
+import {useSelector} from 'react-redux'
 
-const dummy = {
-  isLoggedIn: true,
-  imagePaths: [],
-  mainPosts: [
-    {
-      User: {
-        id: 1,
-        nickname: "구양하",
-      },
-      content: "첫 게시글",
-      img: "https://koostagram.xyz/img/20190524_2256341559372395228.jpg",
-    },
-  ],
-}
 
 const Postform = () => {
+
+  const {imagePaths} = useSelector(state =>state.post)
+  // const {isLoggedIn } = useSelector(state=> state.user)
+
   return (
     <Form encType="multipart/form-data" style={{ margin: "10px 0 20px 0" }}>
       <Input.TextArea
@@ -30,7 +21,7 @@ const Postform = () => {
         </Button>
       </div>
       <div>
-        {dummy.imagePaths.map(v => {
+        {imagePaths.map(v => {
           return (
             <div key={v} style={{ display: "inline-block" }}>
               <img
