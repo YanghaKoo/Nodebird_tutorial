@@ -1,18 +1,22 @@
 import React, {useCallback} from "react"
 import { Form, Input, Button } from "antd"
-import { useInput } from "../pages/signup"
-import {useDispatch} from 'react-redux'
-import {loginAction} from '../reducers/user'
+import { useInput } from "../pages/signup"    // TODO - util 폴더 만들고 옮기기
+import {useDispatch, useSelector} from 'react-redux'    
+import {LOG_IN_REQUEST} from '../reducers/user'
 
 const Loginform = () => {
   const idHook = useInput("")
   const passwordHook = useInput("")
   const dispatch = useDispatch()
+  
+  const { isLoggingIn } = useSelector(state => state.user)  // 로그인 시도중인지 여부
 
   const onSubmitForm = useCallback(e => {
     e.preventDefault()
-    dispatch(loginAction)
-    
+    dispatch({
+      type : LOG_IN_REQUEST,
+      data : { id : idHook.value, password : passwordHook.value}
+    })
     console.log(idHook.value, passwordHook.value)
   },[idHook.value, passwordHook.value])
 
@@ -32,7 +36,7 @@ const Loginform = () => {
         <Input name="user-password" required {...passwordHook} type="password"/>
       </div>
       <div style={{marginTop : 10}}>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인
         </Button>
       </div>

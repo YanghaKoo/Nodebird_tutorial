@@ -5,21 +5,19 @@ import PropTypes from "prop-types"
 import Loginform from "./Loginform"
 import UserProfile from "./UserProfile"
 
-import {useSelector} from 'react-redux'
-
+import { useSelector } from "react-redux"
 
 // Menu가 겹치는 부분이고, 나머지 부분을 children으로 받아와서 아래에 표시해 주겠단 거지
 // 다른 페이지에서 컨텐츠를 <AppLayout></AppLayout>으로 감싸줘야 하겠네
 const AppLayout = ({ children }) => {
-  
-  const {isLoggedIn} = useSelector(state => state.user)
+  const { isLoggedIn } = useSelector(state => state.user)
 
   return (
     <div>
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <Link href="/">
-            <a>노드버드</a>
+            <a>Koowitter</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="profile">

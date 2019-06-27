@@ -8,21 +8,14 @@ import { loginAction, logoutAction } from "../reducers/user" // 액션을 가져
 const Home = () => {
   const dispatch = useDispatch() // < --- redux와 hooks를 연결하는 법!!!!  읽는게 아니라 액션을 디스패치 시킬 때 사용
 
-  const { isLoggedIn, user } = useSelector(state => state.user) // 매개변수 state는 전체를 의미함, 그중 user리덕스를 가져와서 거기서 구조분해함
+  const { isLoggedIn, me } = useSelector(state => state.user) // 매개변수 state는 전체를 의미함, 그중 user리덕스를 가져와서 거기서 구조분해함
   const { mainPosts } = useSelector(state => state.post)
 
-  // useEffect(()=>{
-  //   dispatch({type : "HELLO_SAGA"})
-  //   dispatch({type : "HELLO_SAGA"})
-  //   dispatch({type : "HELLO_SAGA"})
-  //   dispatch({type : "HELLO_SAGA"})
-
-  // }, [])
 
   return (
     <div>
       {isLoggedIn ? (
-        <div>로그인 유저 : {user.nickname}</div>
+        <div>로그인 유저 : {me.nickname}</div>
       ) : (
         <div>로그아웃 했습니다.</div>
       )}

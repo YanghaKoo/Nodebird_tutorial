@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { Form, Input, Checkbox, Button } from "antd"
-import { useDispatch } from 'react-redux'
-import { signupAction } from '../reducers/user'
+import { useDispatch, useSelector } from "react-redux"
+import { SIGN_UP_REQUEST } from "../reducers/user"
+import Router from 'next/router'
 
 // 단순 인풋 Custom Hook으로, Loginform에서도 쓰일거라서 export 해줬음
 // custom 훅은 전력 레벨에 선언하자!!
 export const useInput = initValue => {
   const [value, setter] = useState(initValue)
+  
   const onChange = useCallback(e => {
     setter(e.target.value)
   })
@@ -20,6 +22,14 @@ const Signup = () => {
    ***그리고 useCallback 내부에서 쓰는 state를 디펜던시 배열에 넣어줘야함!!!***
   */
 
+  const { me } = useSelector(state => state.user)
+
+  // 객체는 useEffect에 안넣는게 좋음
+  useEffect(()=>{    
+    if(me) Router.push('/')
+  }, [me && me.id])
+
+  
   const idHook = useInput("")
   const nickHook = useInput("")
   const passwordHook = useInput("")
@@ -32,6 +42,7 @@ const Signup = () => {
   const [termError, setTermError] = useState(false)
 
   const dispatch = useDispatch()
+  const { isSigningUp } = useSelector(state => state.user)
 
   const onSubmit = useCallback(
     e => {
@@ -39,11 +50,14 @@ const Signup = () => {
       if (passwordHook.value !== passwordCheck) return setPasswordError(true)
       if (!term) return setTermError(true)
 
-      dispatch(signupAction({
-        id : idHook.value,
-        password : passwordHook.value,
-        nick : nickHook.value
-      }))
+      dispatch({
+        type: SIGN_UP_REQUEST,
+        data: {
+          id: idHook.value,
+          password: passwordHook.value,
+          nick: nickHook.value,
+        },
+      })
     },
     [passwordHook.value, passwordCheck, term],
   ) // 함수 내에서 쓴 3개의 state를 디펜던시로 넣어줌(콘솔은 내가 보는거니까 제외)
@@ -77,12 +91,7 @@ const Signup = () => {
         <div>
           <label htmlFor="user-password">비밀번호</label>
           <br />
-          <Input
-            name="user-password"
-            type="password"
-            required
-            {...passwordHook}
-          />
+          <Input name="user-password" type="password" required {...passwordHook} />
         </div>
         <div>
           <label htmlFor="user-password-check">비밀번호 체크</label>
@@ -94,20 +103,15 @@ const Signup = () => {
             value={passwordCheck}
             onChange={onChangePasswordChk}
           />
-          {passwordError && (
-            <div style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</div>
-          )}
+          {passwordError && <div style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</div>}
         </div>
         <div>
           <Checkbox name="user-term" value={term} onChange={onChangeTerm}>
-            약관 동의 함
-            {termError && (
-              <div style={{ color: "red" }}>약관에 동의하셔야 합니다.</div>
-            )}
+            약관 동의 함{termError && <div style={{ color: "red" }}>약관에 동의하셔야 합니다.</div>}
           </Checkbox>
         </div>
         <div style={{ marginTop: 3 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             가입하기
           </Button>
         </div>
