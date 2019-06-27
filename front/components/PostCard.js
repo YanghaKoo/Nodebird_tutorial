@@ -15,6 +15,7 @@ const PostCard = ({ post }) => {
   useEffect(()=>{
     setCommentText('')
   },[commentAdded === true])
+  
 
   // 댓글창 표시/비표시
   const onToggleComment = useCallback(() => {

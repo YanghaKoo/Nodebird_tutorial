@@ -1,14 +1,6 @@
-const dummyUser = {
-  nickname: "구양하",
-  Post: [],
-  Followings: [],
-  Followers: [],
-  id : 1,  
-}
-
 // 초기 상태 정의
 export const initialState = {
-  isLoggedIn: false,    
+  
   isLoggingOut : false,
   isLoggingIn : false, // 로그인 하고 있냐?
   loginErrorReason : '',
@@ -36,7 +28,7 @@ export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS'; 
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'; 
 
-// 유저 정보 가져오는 액션
+// 초기 유저 정보 가져오는 액션(로그인 되어 있는지)
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
@@ -86,9 +78,9 @@ export default (state = initialState, action) => {
     case LOG_IN_SUCCESS: {
       return {
         ...state,
-        isLoggedIn : true,
+        
         isLoggingIn : false, 
-        me : dummyUser       
+        me : action.data       
       }
     }
 
@@ -104,23 +96,21 @@ export default (state = initialState, action) => {
 
     case LOG_OUT_REQUEST: {
       return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
+        ...state,        
+        isLoggingOut : true,      
       }
     }
     case LOG_OUT_SUCCESS: {
       return {
-        ...state,
-        isLoggedIn: false,
-        user: null,
+        ...state,        
+        me: null,
+        isLoggingOut : false,
       }
     }
     case LOG_OUT_FAILURE: {
       return {
         ...state,
-        isLoggedIn: false,
-        user: null,        
+        isLoggingOut: false,  
       }
     }
 
@@ -142,6 +132,23 @@ export default (state = initialState, action) => {
         ...state,        
         isSigningUp : false,
         signUpErrorReason : action.error
+      }
+    }
+    case LOAD_USER_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case LOAD_USER_SUCCESS: {
+      return {
+        ...state,
+        me : action.data        
+      }
+    }
+
+    case LOAD_USER_FAILURE: {
+      return {
+        ...state        
       }
     }
 

@@ -1,16 +1,23 @@
-import React, { Children } from "react"
+import React, { Children, useEffect } from "react"
 import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd"
 import Link from "next/link"
 import PropTypes from "prop-types"
 import Loginform from "./Loginform"
 import UserProfile from "./UserProfile"
 
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import {LOAD_USER_REQUEST} from '../reducers/user'
 
 // Menu가 겹치는 부분이고, 나머지 부분을 children으로 받아와서 아래에 표시해 주겠단 거지
 // 다른 페이지에서 컨텐츠를 <AppLayout></AppLayout>으로 감싸줘야 하겠네
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector(state => state.user)
+  const { me } = useSelector(state => state.user)
+  const dispatch = useDispatch()
+
+  // 로그인을 안한 상태면 쿠키가 있는지 체크해줘라
+  useEffect(()=>{
+    if(!me) dispatch({type : LOAD_USER_REQUEST})
+  },[])
 
   return (
     <div>
@@ -37,7 +44,7 @@ const AppLayout = ({ children }) => {
 
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <Loginform />}
+          {me ? <UserProfile /> : <Loginform />}
         </Col>
         <Col xs={24} md={12}>
           {children}

@@ -53,13 +53,13 @@ const Signup = () => {
       dispatch({
         type: SIGN_UP_REQUEST,
         data: {
-          id: idHook.value,
+          userId: idHook.value,
           password: passwordHook.value,
-          nick: nickHook.value,
+          nickname: nickHook.value,
         },
       })
     },
-    [passwordHook.value, passwordCheck, term],
+    [passwordHook.value, passwordCheck, term, idHook.value, nickHook.value],
   ) // 함수 내에서 쓴 3개의 state를 디펜던시로 넣어줌(콘솔은 내가 보는거니까 제외)
 
   const onChangePasswordChk = useCallback(

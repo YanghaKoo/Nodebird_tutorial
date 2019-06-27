@@ -15,9 +15,8 @@ const Loginform = () => {
     e.preventDefault()
     dispatch({
       type : LOG_IN_REQUEST,
-      data : { id : idHook.value, password : passwordHook.value}
-    })
-    console.log(idHook.value, passwordHook.value)
+      data : { userId : idHook.value, password : passwordHook.value}
+    })     
   },[idHook.value, passwordHook.value])
 
 

@@ -30,9 +30,9 @@ const dummyComment = {
   };
 
 // 메인포스트 로딩
-export const LOAD_MAIN_POST_REQUEST = "LOAD_MAIN_POST_REQUEST"
-export const LOAD_MAIN_POST_SUCCESS = "LOAD_MAIN_POST_SUCCESS"
-export const LOAD_MAIN_POST_FAILURE = "LOAD_MAIN_POST_FAILURE"
+export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POST_REQUEST"
+export const LOAD_MAIN_POSTS_SUCCESS = "LOAD_MAIN_POST_SUCCESS"
+export const LOAD_MAIN_POSTS_FAILURE = "LOAD_MAIN_POST_FAILURE"
 
 // 해쉬태그 검색 결과 로딩하는 액션
 export const LOAD_HASHTAG_POSTS_REQUEST = "LOAD_HASHTAG_POSTS_REQUEST"
@@ -53,9 +53,9 @@ export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE"
 export const REMOVE_IMAGE = "REMOVE_IMAGE"
 
 // 포스트 업로드
-export const ADD_POSTS_REQUEST = "ADD_POST_REQUEST"
-export const ADD_POSTS_SUCCESS = "ADD_POST_SUCCESS"
-export const ADD_POSTS_FAILURE = "ADD_POST_FAILURE"
+export const ADD_POST_REQUEST = "ADD_POST_REQUEST"
+export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS"
+export const ADD_POST_FAILURE = "ADD_POST_FAILURE"
 
 // like에 누르는 액션
 export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST"
@@ -92,7 +92,7 @@ export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE"
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POSTS_REQUEST: {
+    case ADD_POST_REQUEST: {
       return {
         ...state,
         isAddingPost : true,
@@ -101,7 +101,7 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case ADD_POSTS_SUCCESS: {
+    case ADD_POST_SUCCESS: {
       return {
         ...state,
         isAddingPost : false,
@@ -110,7 +110,7 @@ const reducer = (state = initialState, action) => {
       }
     } 
 
-    case ADD_POSTS_FAILURE: {
+    case ADD_POST_FAILURE: {
       return {
         ...state,
         isAddingPost : false,
@@ -128,8 +128,8 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case ADD_COMMENT_SUCCESS: {
-      
+    // 이부분이 어려움!!!!!
+    case ADD_COMMENT_SUCCESS: {      
       // 불변성 유지를 위해서!!
       const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId)
       const post = state.mainPosts[postIndex]
@@ -145,9 +145,6 @@ const reducer = (state = initialState, action) => {
         commentAdded : true
       }
     } 
-
-
-
     
     case ADD_COMMENT_FAILURE: {
       return {
@@ -157,13 +154,25 @@ const reducer = (state = initialState, action) => {
       }
     }
 
+    case LOAD_MAIN_POSTS_REQUEST: {
+      return {
+        ...state,        
+        mainPosts : []
+      }
+    }
 
-    // case ADD_DUMMY: {
-    //   return {
-    //     ...state,
-    //     mainPosts: [action.data, ...state.mainPosts],
-    //   }
-    // }
+    case LOAD_MAIN_POSTS_SUCCESS: {
+      return {
+        ...state,      
+        mainPosts : action.data  
+      }
+    } 
+
+    case LOAD_MAIN_POSTS_FAILURE: {
+      return {
+        ...state,
+      }
+    }
 
     default: {
       return {

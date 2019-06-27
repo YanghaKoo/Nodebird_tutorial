@@ -1,15 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react"
 import { Form, Input, Button, Icon, Avatar, Card } from "antd"
 import { useDispatch, useSelector } from "react-redux"
-import { ADD_POSTS_REQUEST } from "../reducers/post"
+import { ADD_POST_REQUEST } from "../reducers/post"
 
-let dummy = {
-  User: {
-    id: 2,
-    nickname: "수경이",
-  },
-  content: "",
-}
+
 
 // HOOKS 주의사항, dispatch는 함수컴포너트 내에 있어야함,
 // onSubmit과 같은 함수도 컴포넌트 내에 있어야함
@@ -25,10 +19,16 @@ const Postform = () => {
   // useCallback 두번째 인자 배열 안에는 함수 내에서 쓰는 state들 꼭 넣어주기
   const onSubmitPost = useCallback(e => {
     e.preventDefault()    
-    dummy.content = text
+
+    if(!text || !text.trim()){        // SPACE만 친 경우 걸러내려고!!
+      return alert("내용을 입력해주세요.")      
+    }
+    
     dispatch({
-      type: ADD_POSTS_REQUEST,
-      data: dummy,
+      type: ADD_POST_REQUEST,
+      data: {
+        content : text
+      },
     })    
   }, [text])
 
