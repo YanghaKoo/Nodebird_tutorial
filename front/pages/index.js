@@ -17,6 +17,7 @@ const Home = () => {
     dispatch({type : LOAD_MAIN_POSTS_REQUEST})
   }, [])
 
+
   return (
     <div>      
       {me && <Postform />}

@@ -1,25 +1,7 @@
-const dummyComment = {
-  id : 1,
-  User : {
-    id : 1,
-    nickname : "ㅁㄴㅇ"
-  },
-  createdAt : new Date(),
-  content : "더미"
-  }
 
 
   export const initialState = {
-    mainPosts: [{
-      id: 1,
-      User: {
-        id: 1,
-        nickname: '제로초',
-      },
-      content: '첫 번째 게시글',
-      img: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-      Comments: [],
-    }], // 화면에 보일 포스트들
+    mainPosts: [], // 화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로
     addPostErrorReason: '', // 포스트 업로드 실패 사유
     isAddingPost: false, // 포스트 업로드 중
@@ -133,7 +115,7 @@ const reducer = (state = initialState, action) => {
       // 불변성 유지를 위해서!!
       const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId)
       const post = state.mainPosts[postIndex]
-      const Comments = [...post.Comments, dummyComment]
+      const Comments = [...post.Comments, action.data.comment]
       const mainPosts = [...state.mainPosts]
 
       mainPosts[postIndex] = {...post, Comments}  // Comments만 새로운 Comments가 추가된 걸로 바꿔껴준 것
@@ -154,21 +136,43 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case LOAD_MAIN_POSTS_REQUEST: {
+    // 메인, 해쉬태그, 유저 포스트는 mainposts로 왔다갔다 하는거니까 액션이 다 똑같지! 그래서 이렇게
+    case LOAD_MAIN_POSTS_REQUEST: 
+    case LOAD_USER_POSTS_REQUEST :
+    case LOAD_HASHTAG_POSTS_REQUEST: {
       return {
         ...state,        
         mainPosts : []
       }
     }
 
-    case LOAD_MAIN_POSTS_SUCCESS: {
+    case LOAD_MAIN_POSTS_SUCCESS: 
+    case LOAD_USER_POSTS_SUCCESS :
+    case LOAD_HASHTAG_POSTS_SUCCESS: {      
       return {
         ...state,      
         mainPosts : action.data  
       }
     } 
 
-    case LOAD_MAIN_POSTS_FAILURE: {
+    case LOAD_MAIN_POSTS_FAILURE:
+    case LOAD_USER_POSTS_FAILURE :
+    case LOAD_HASHTAG_POSTS_FAILURE: {
+      return {
+        ...state,
+      }
+    }
+
+    
+
+    case LOAD_HASHTAG_POSTS_SUCCESS: {
+      return {
+        ...state,      
+        
+      }
+    } 
+
+    case LOAD_HASHTAG_POSTS_FAILURE: {
       return {
         ...state,
       }

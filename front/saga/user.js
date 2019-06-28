@@ -129,20 +129,21 @@ function* watchLogOut() {
 
 // --------------------------네번째 패턴 쿠키가 있다면 로드 유저 시키기!----------------------------
 
-function loadUserAPI(loadUserdata) {
+function loadUserAPI(userId) {
   // 실제로 서버에 요청을 보내는 요청
-  return axios.get("/user", {
+  return axios.get(userId ? `/user/${userId}`  : "/user", {
     withCredentials: true, // 내 세션쿠기를 서버쪽에 보내서 확인하는 거라거 이거 필요함
   })
 }
 
 function* loadUser(action) {
   try {
-    const result = yield call(loadUserAPI)
+    const result = yield call(loadUserAPI,action.data)
 
     yield put({
       type: LOAD_USER_SUCCESS,
-      data : result.data
+      data : result.data,
+      me : !action.data // userId가 없으면!! 내 정보 불러오는 거니까 리듀서에서 구분하여 처리하게
     })
   } catch (e) {
     console.error(e)

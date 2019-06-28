@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next",
+    "dev": "nodemon",
     "build": "next build",
     "start": "next start"
   },
@@ -14,6 +14,11 @@
   "dependencies": {
     "antd": "^3.19.8",
     "axios": "^0.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "morgan": "^1.9.1",
     "next": "^8.1.0",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "prop-types": "^15.7.2",
@@ -24,10 +29,10 @@
     "redux-saga": "^1.0.3"
   },
   "devDependencies": {
+    "eslint": "^6.0.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-react": "^7.14.0",
     "eslint-plugin-react-hooks": "^1.6.0",
-    "eslint": "^6.0.0",
     "nodemon": "^1.19.1",
     "webpack": "^4.35.0"
   }

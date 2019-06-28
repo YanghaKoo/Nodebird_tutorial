@@ -8,7 +8,13 @@ import {
   ADD_COMMENT_FAILURE,
   LOAD_MAIN_POSTS_REQUEST,
   LOAD_MAIN_POSTS_SUCCESS,
-  LOAD_MAIN_POSTS_FAILURE
+  LOAD_MAIN_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_HASHTAG_POSTS_FAILURE,
+  LOAD_USER_POSTS_FAILURE,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
 } from "../reducers/post"
 import axios from "axios"
 
@@ -71,21 +77,19 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment)
 }
 
-
 // ----
 
 function loadMainPostsAPI() {
   // 실제로 서버에 요청을 보내는 요청
-  return axios.get('/posts') // 로그인 안한사람도 메인 페이지 게시물 보니까 크리덴셜 없어도 됨
+  return axios.get("/posts") // 로그인 안한사람도 메인 페이지 게시물 보니까 크리덴셜 없어도 됨
 }
 
-
 function* loadMainPosts() {
-  try {    
-    const result= yield call(loadMainPostsAPI)
+  try {
+    const result = yield call(loadMainPostsAPI)
     yield put({
       type: LOAD_MAIN_POSTS_SUCCESS,
-      data: result.data
+      data: result.data,
     })
   } catch (e) {
     console.error(e)
@@ -100,6 +104,65 @@ function* watchLoadMainPosts() {
   yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts)
 }
 
+//---------- 해쉬태그 포스트 가져오기
+
+function loadHashtagPostsAPI(tag) {
+  return axios.get("/hashtag/" + tag)
+}
+
+function* loadHashtagPosts(action) {
+  try {
+    const result = yield call(loadHashtagPostsAPI, action.data)
+    console.log(result.data)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_FAILURE,
+      error: e,
+    })
+  }
+}
+
+function* watchLoadHashtagPosts() {
+  yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
+}
+
+//---------- 유저포스트 가져오기
+
+function loadUserPostsAPI(id) {
+  return axios.get(`/user/${id}/posts`)
+}
+
+function* loadUserPosts(action) {
+  try {
+    const result = yield call(loadUserPostsAPI, action.data)
+    yield put({
+      type: LOAD_USER_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOAD_USER_POSTS_FAILURE,
+      error: e,
+    })
+  }
+}
+
+function* watchLoadUserPosts() {
+  yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts)
+}
+
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchAddComment), fork(watchLoadMainPosts)])
+  yield all([
+    fork(watchAddPost),
+    fork(watchAddComment),
+    fork(watchLoadMainPosts),
+    fork(watchLoadHashtagPosts),
+    fork(watchLoadUserPosts),
+  ])
 }
